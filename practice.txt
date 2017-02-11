@@ -1,0 +1,3 @@
+this is my practice file in which I will describe what I did to commit then push basic git functions.
+
+
