@@ -4,9 +4,9 @@ Gerardo Hidalgo
 
 A collaborative attempt to make a rasberri pi powered acrylic light.
 
-Collaborative links:
-https://www.hackster.io/windowsiot/rgb-led-sample-729ea7
-http://www.pidramble.com/wiki/hardware/rgb-led-gpio
-http://dordnung.de/raspberrypi-ledstrip/
+Collaborative links: <br />
+https://www.hackster.io/windowsiot/rgb-led-sample-729ea7  <br />
+http://www.pidramble.com/wiki/hardware/rgb-led-gpio  <br />
+http://dordnung.de/raspberrypi-ledstrip/ <br /> 
 
 Gerardo's Work
