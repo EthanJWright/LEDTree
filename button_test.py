@@ -3,7 +3,7 @@ import time
 GPIO.setmode(GPIO.BCM)
 #BUTTON SETUP
 button = 19
-GPIO.setup(button, GPIO.IN, pull_up+down=GPIO.PUD_UP)
+GPIO.setup(button, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
 #LED SETUP
 led = 21
@@ -17,5 +17,4 @@ while True:
     time.sleep(0.2)
     # Switch on LED
     GPIO.output(led, 1)
-  else:
-
+  
