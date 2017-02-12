@@ -11,3 +11,5 @@ http://dordnung.de/raspberrypi-ledstrip/ <br />
 https://shkspr.mobi/blog/2015/05/idiots-guide-to-getting-started-with-raspberry-pis-gpio-pins/ #first intro guide we used.
 
 Gerardo's Work
+
+test
