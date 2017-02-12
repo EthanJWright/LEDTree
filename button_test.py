@@ -14,9 +14,8 @@ while True:
   input_state = GPIO.input(button)
   if input_state == False:
     print('Button Pressed')
-    time.sleep(0.2)
-    # Switch on LED
+
     GPIO.output(led, 1)
-  else:
-    print ('running')
-  
+    time.sleep(2)
+    GPIO.output(led, 0)
+    # Switch on LED 
