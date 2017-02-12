@@ -17,4 +17,6 @@ while True:
     time.sleep(0.2)
     # Switch on LED
     GPIO.output(led, 1)
+  else:
+    print ('running')
   
