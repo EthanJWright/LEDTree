@@ -24,7 +24,9 @@ class Weather(object):
 myVar = Weather()
 myVar.refresh()
 
-print myVar.temp
+print myVar.temp, ' current temp'
+print myVar.cloud_cover * 100, 'percentage of cloud coverage'
+print myVar.wind_speed, ' MPH winds'
 
 
 
