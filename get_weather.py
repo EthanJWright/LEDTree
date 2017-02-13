@@ -15,10 +15,7 @@ class Weather(object):
         self.temp = current['temperature']
         self.cloud_cover = current['cloudCover']
         self.wind_speed = current['windSpeed']
-
-
-
-
+#        print current
 
 
 myVar = Weather()

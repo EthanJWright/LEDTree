@@ -12,7 +12,7 @@ GPIO.setup(led, GPIO.OUT)
 tempAPI = Weather()
 tempAPI.refresh()
 
-def LED_weather(temp):
+def LED_weather(tempAPI):
     if ( tempAPI.temp < 50 ):
         GPIO.output(led, 1)
     else:
@@ -20,5 +20,5 @@ def LED_weather(temp):
 
 while True:
     tempAPI.refresh()
-    LED_weather(temp)
+    LED_weather(tempAPI)
     sleep(60)
