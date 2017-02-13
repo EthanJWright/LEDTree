@@ -25,9 +25,7 @@ class Weather(object):
 
     def get_temp(self):         #The air temperature in degrees Fahrenheit.
         return self.temp
-
-
-    
+  
     def refresh(self):
         url = 'https://api.forecast.io/forecast/52347449fab1dab5431fcbc264efcb19/40.014984,-105.270546'
         f = requests.get(url).json()
@@ -35,7 +33,7 @@ class Weather(object):
 
         self.set_temp(current['temperature'])
         self.set_cloud_cover(current['cloudCover'])
-        self.set_wind_speed(current[''windSpeed'])
+        self.set_wind_speed(current['windSpeed'])
 
 
 
@@ -44,4 +42,11 @@ class Weather(object):
 
 myVar = Weather()
 myVar.refresh()
+
+print myVar.temp
+
+
+
+
+
 
