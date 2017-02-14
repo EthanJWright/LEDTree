@@ -1,6 +1,6 @@
 import RPi.GPIO as GPIO
 import time
-import Weather
+import get_weather
 
 GPIO.setmode(GPIO.BCM)
 #LED SETUP
@@ -9,7 +9,7 @@ led = 21
 GPIO.setup(led, GPIO.OUT)
 #Switch on
 
-tempAPI = Weather.Weather()
+tempAPI = get_weather.Weather()
 tempAPI.refresh()
 
 def LED_weather(tempAPI):
