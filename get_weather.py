@@ -27,11 +27,8 @@ print myVar.temp, ' current temp'
 print myVar.cloud_cover * 100, 'percentage of cloud coverage'
 print myVar.wind_speed, ' MPH winds'
 
-print( datetime.datetime.fromtimestamp(int(myVar.time)).strftime('%Y-%m-%d %H:%M:%S'))
-time = datetime.datetime.fromtimestamp(int(myVar.time))
-print time.time()
 
-
-
-
+hours = int(datetime.datetime.fromtimestamp(int(myVar.time)).strftime('%H')) - 7
+minutes = int(datetime.datetime.fromtimestamp(int(myVar.time)).strftime('%M'))
+print hours,':',minutes
 
