@@ -9,7 +9,7 @@ led = 21
 GPIO.setup(led, GPIO.OUT)
 #Switch on
 
-tempAPI = Weather()
+tempAPI = Weather.Weather()
 tempAPI.refresh()
 
 def LED_weather(tempAPI):
@@ -19,6 +19,7 @@ def LED_weather(tempAPI):
         GPIO.output(led, 0)
 
 while True:
+    print 'refresh'
     tempAPI.refresh()
     LED_weather(tempAPI)
-    sleep(60)
+    time.sleep(30)
