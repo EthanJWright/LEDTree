@@ -28,7 +28,7 @@ myVar.refresh()
 
 
 
-print myVar.temp, ' current temp'
+
 print myVar.cloud_cover * 100, 'percentage of cloud coverage'
 print myVar.wind_speed, ' MPH winds'
 
