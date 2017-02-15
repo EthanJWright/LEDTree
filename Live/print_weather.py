@@ -16,24 +16,24 @@ class Weather(object):
         self.temp = current['temperature']
         self.cloud_cover = current['cloudCover'] * 100
         self.wind_speed = current['windSpeed'] * 10
-        self.time = int(datetime.datetime.fromtimestamp(int(current['time'])).strftime('%H'))
+        self.time = current['time']
 
 
 
 
 
-'''
+
 myVar = Weather()
 myVar.refresh()
 
 
 
 print myVar.temp, ' current temp'
-print myVar.cloud_cover * 100, 'percentage of cloud coverage'
+print myVar.cloud_cover, 'percentage of cloud coverage'
 print myVar.wind_speed, ' MPH winds'
 
 
-hours = int(datetime.datetime.fromtimestamp(int(myVar.time)).strftime('%H')) - 7
+hours = int(datetime.datetime.fromtimestamp(int(myVar.time)).strftime('%H'))
 minutes = int(datetime.datetime.fromtimestamp(int(myVar.time)).strftime('%M'))
 print hours,':',minutes
-'''
+
