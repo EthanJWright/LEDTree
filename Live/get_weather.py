@@ -8,10 +8,10 @@ class Weather(object):
         self.cloud_cover = 0  #The percentage of sky occluded by clouds, between 0 and 1, inclusive.
         self.wind_speed = 0     #The wind speed in miles per hour.
         self.time = 0
+        self.url = 'https://api.darksky.net/forecast/52347449fab1dab5431fcbc264efcb19/40.014984,-105.270546'
   
     def refresh(self):
-        url = 'https://api.forecast.io/forecast/52347449fab1dab5431fcbc264efcb19/40.014984,-105.270546'
-        data = requests.get(url).json()
+        data = requests.get(self.url).json()
         current = data['currently']
         self.temp = current['temperature']
         self.cloud_cover = current['cloudCover']
@@ -28,7 +28,7 @@ myVar.refresh()
 
 
 
-
+print myVar.temp
 print myVar.cloud_cover * 100, 'percentage of cloud coverage'
 print myVar.wind_speed, ' MPH winds'
 
