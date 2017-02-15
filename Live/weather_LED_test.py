@@ -13,7 +13,7 @@ tempAPI = get_weather.Weather()
 tempAPI.refresh()
 
 def LED_weather(tempAPI):
-    if ( tempAPI.temp < 43 ):
+    if ( tempAPI.temp < 44 ):
         GPIO.output(led, 1)
     else:
         GPIO.output(led, 0)
