@@ -41,7 +41,7 @@ class LED(object):
         for i in range(0, 2):
             self.old_panel[i] = self.new_panel[i]
 
-
+#Start of unique to inheritance
     def update(self):
         tempAPI = get_weather.Weather()
         tempAPI.refresh()
