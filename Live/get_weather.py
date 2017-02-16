@@ -9,10 +9,20 @@ class Weather(object):
         self.wind_speed = 0     #The wind speed in miles per hour.
         self.time = 0
         self.url = 'https://api.darksky.net/forecast/52347449fab1dab5431fcbc264efcb19/40.014984,-105.270546'
+        self.data = requests.get(self.url).json()
+
+    def is_json(self):
+       try:
+           self.data = requests.get(self.url).json()
+       except ValueError, e:
+           return False
+       return True
   
     def refresh(self):
-        data = requests.get(self.url).json()
-        current = data['currently']
+        if(not self.is_json()):
+            time.sleep(30)
+            refresh()
+        current = self.data['currently']
         self.temp = current['temperature']
         self.cloud_cover = current['cloudCover'] * 100
         self.wind_speed = current['windSpeed'] * 10
@@ -21,8 +31,6 @@ class Weather(object):
 
 
 
-
-'''
 myVar = Weather()
 myVar.refresh()
 
@@ -36,4 +44,4 @@ print myVar.wind_speed, ' MPH winds'
 hours = int(datetime.datetime.fromtimestamp(int(myVar.time)).strftime('%H')) - 7
 minutes = int(datetime.datetime.fromtimestamp(int(myVar.time)).strftime('%M'))
 print hours,':',minutes
-'''
+
