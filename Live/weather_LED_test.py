@@ -22,4 +22,4 @@ while True:
     print 'refresh'
     tempAPI.refresh()
     LED_weather(tempAPI)
-    time.sleep(30)
+    time.sleep(600)

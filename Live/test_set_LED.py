@@ -6,6 +6,6 @@ LED.begin()
 
 while(True):
     LED.update()
-    time.sleep(600)
+    time.sleep(10)
 
 
