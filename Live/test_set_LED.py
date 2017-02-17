@@ -1,11 +1,11 @@
-import set_LED
+import LED_Weather
 import time
 
-LED = set_LED.LED()
+LED = LED_Weather.LED_Weather()
 LED.begin()
 
 while(True):
     LED.update()
-    time.sleep(10)
+    time.sleep(30)
 
 
