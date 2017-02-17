@@ -19,7 +19,7 @@ class LED:
         else:
             return diff[1]
 
-    def set_RGB(self, panel_number):
+    def get_RGB(self, panel_number):
         print 'This needs to be overwritten', panel_number
         raise NotImplementedError
 
@@ -31,20 +31,19 @@ class LED:
         print 'This needs to be implemented'
         raise NotImplementedError
 
+    def set_RGB(self, rgb):
+        #TODO implement GPIO setter class
+        print rgb, 'SETTING'
+
     def fade_LED(self):
-        test = self.get_RGB(0)
-        test = self.get_RGB(1)
-        test = self.get_RGB(2)
         for i in range(0, int(self.get_max())):
             for j in range(0, 3):
                 if(int(self.new_panel[j]) < int(self.old_panel[j])):
                     self.old_panel[j] -= 1
-                    print self.old_panel[j]
-                    test = self.get_RGB(j)
+                    self.set_RGB(self.get_RGB(j))
                 elif(int(self.new_panel[j]) > int(self.old_panel[j])):
                     self.old_panel[j] += 1
-                    print self.old_panel[j]
-                    test = self.get_RGB(j)
+                    self.set_RGB(self.get_RGB(j))
             time.sleep(1)
             print 'did something'
         for i in range(0, 3):

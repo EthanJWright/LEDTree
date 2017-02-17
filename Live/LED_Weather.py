@@ -4,7 +4,7 @@ class LED_Weather(LED):
     def update(self):
         tempAPI = get_weather.Weather()
         tempAPI.refresh()
-        self.new_panel[0] = tempAPI.temp*100
+        self.new_panel[0] = tempAPI.temp*10
         self.new_panel[1] = (tempAPI.cloud_cover)
         self.new_panel[2] = tempAPI.time
         print self.old_panel[0]
@@ -15,7 +15,7 @@ class LED_Weather(LED):
     def begin(self):
         tempAPI = get_weather.Weather()
         tempAPI.refresh()
-        self.new_panel[0] = tempAPI.temp*100
+        self.new_panel[0] = tempAPI.temp*10
         self.new_panel[1] = (tempAPI.cloud_cover)
         self.new_panel[2] = tempAPI.time
         for i in range(0, 3):
@@ -28,7 +28,7 @@ class LED_Weather(LED):
         fit[0] = [0.0179, -0.0325, 48.9904]
         fit[1] = [0.0221, -3.9706, 179.0101]
         fit[2] = [0.0130, -3.5969, 236.05575]
-        temp = self.old_panel[0]/100
+        temp = self.old_panel[0]/10
         for i in range(0, 3):
             rgb[i] = self.get_regression(fit[i], temp)
 
@@ -58,12 +58,14 @@ class LED_Weather(LED):
         print 'TIME'
 
     def get_RGB(self, panel_number):
+        rgb = []
         if(panel_number == 0):
-            self.set_temp()
+            rgb = self.set_temp()
         elif(panel_number == 1):
-            self.set_cloud()
+            rgb = self.set_cloud()
         elif(panel_number == 2):
-            self.set_time()
+            rgb = self.set_time()
+        return rgb
 
     '''
     def get_regression(self, fit, x_value):
