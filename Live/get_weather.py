@@ -1,6 +1,7 @@
 import requests
 import json
 import datetime
+#Powered by Dark Sky: https://darksky.net/forecast
 #Documentation for API: https://darksky.net/dev/docs/response
 class Weather(object):
     def __init__(self):
@@ -17,7 +18,7 @@ class Weather(object):
        except ValueError, e:
            return False
        return True
-  
+
     def refresh(self):
         if(not self.is_json()):
             time.sleep(30)
@@ -27,21 +28,3 @@ class Weather(object):
         self.cloud_cover = current['cloudCover'] * 100
         self.wind_speed = current['windSpeed'] * 10
         self.time = int(datetime.datetime.fromtimestamp(int(current['time'])).strftime('%H'))
-
-
-
-
-myVar = Weather()
-myVar.refresh()
-
-
-
-print myVar.temp
-print myVar.cloud_cover * 100, 'percentage of cloud coverage'
-print myVar.wind_speed, ' MPH winds'
-
-
-hours = int(datetime.datetime.fromtimestamp(int(myVar.time)).strftime('%H')) - 7
-minutes = int(datetime.datetime.fromtimestamp(int(myVar.time)).strftime('%M'))
-print hours,':',minutes
-
