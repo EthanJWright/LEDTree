@@ -32,6 +32,3 @@ class Weather(object):
         self.wind_speed = current['windSpeed'] * 10
         self.time = int(datetime.datetime.fromtimestamp(int(current['time'])).strftime('%H'))
 
-myVar = Weather()
-myVar.refresh()
-print myVar.temp

@@ -1,5 +1,4 @@
 import time
-import datetime
 #to make first call, call LED.begin(), then every time to make new call call LED.update()
 #Class must be inherited, let fade_LED function according to model you are representing
 class LED:
