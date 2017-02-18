@@ -1,3 +1,6 @@
+
+[Powered by Dark Sky](https://darksky.net/poweredby/)
+
 02/11/2017
 Ethan Wright
 Gerardo Hidalgo
