@@ -14,7 +14,7 @@ class Weather(object):
     def is_json(self):
        try:
            self.data = requests.get(self.url).json()
-       except ValueError, e:
+       except requests.exceptions.ConnectionError as e:
            return False
        return True
   
