@@ -1,6 +1,7 @@
 import requests
 import json
 import datetime
+#Powered by Dark Sky: https://darksky.net/forecast
 #Documentation for API: https://darksky.net/dev/docs/response
 class Weather(object):
     def __init__(self):
@@ -8,7 +9,10 @@ class Weather(object):
         self.cloud_cover = 0  #The percentage of sky occluded by clouds, between 0 and 1, inclusive.
         self.wind_speed = 0     #The wind speed in miles per hour.
         self.time = 0
-        self.url = 'https://api.darksky.net/forecast/52347449fab1dab5431fcbc264efcb19/40.014984,-105.270546'
+        self.api_key = '52347449fab1dab5431fcbc264efcb19'
+        self.latitude = '40.014984'
+        self.longitude = '-105.270546'
+        self.url = 'https://api.darksky.net/forecast/' + self.api_key + '/' + self.latitude + ',' + self.longitude
         self.data = requests.get(self.url).json()
 
     def is_json(self):
@@ -17,7 +21,7 @@ class Weather(object):
        except requests.exceptions.ConnectionError as e:
            return False
        return True
-  
+
     def refresh(self):
         if(not self.is_json()):
             time.sleep(30)
@@ -28,20 +32,6 @@ class Weather(object):
         self.wind_speed = current['windSpeed'] * 10
         self.time = int(datetime.datetime.fromtimestamp(int(current['time'])).strftime('%H'))
 
-
-
-
 myVar = Weather()
 myVar.refresh()
-
-
-
 print myVar.temp
-print myVar.cloud_cover * 100, 'percentage of cloud coverage'
-print myVar.wind_speed, ' MPH winds'
-
-
-hours = int(datetime.datetime.fromtimestamp(int(myVar.time)).strftime('%H')) - 7
-minutes = int(datetime.datetime.fromtimestamp(int(myVar.time)).strftime('%M'))
-print hours,':',minutes
-
