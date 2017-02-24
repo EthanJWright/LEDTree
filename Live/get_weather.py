@@ -33,8 +33,8 @@ class Weather(object):
     def refresh(self):
         if(not self.test_connection()):
             time.sleep(30)
-            refresh()
-       current = self.data['currently']
+            self.refresh()
+        current = self.data['currently']
         self.temp = current['temperature']
         self.cloud_cover = current['cloudCover'] * 100
         self.wind_speed = current['windSpeed'] * 10
