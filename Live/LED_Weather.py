@@ -29,9 +29,9 @@ class LED_Weather(LED):
         fit = [None] * 3
         rgb = [None] * 3
         #Quadratic regression variables
-        fit[0] = [0.0179, -0.0325, 48.9904]
-        fit[1] = [0.0221, -3.9706, 179.0101]
-        fit[2] = [0.0130, -3.5969, 236.05575]
+        fit[0] = [0.1504, -16.8053, 509.9143]
+        fit[1] = [-0.1469, 19.2226, -408.3238]
+        fit[2] = [-0.0042, -3.7102, 368.9524]
         temp = self.old_panel[0]/10
         for i in range(0, 3):
             rgb[i] = self.get_regression(fit[i], temp)

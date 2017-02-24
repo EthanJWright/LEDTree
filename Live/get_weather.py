@@ -15,15 +15,19 @@ class Weather(object):
         self.url = 'https://api.darksky.net/forecast/' + self.api_key + '/' + self.latitude + ',' + self.longitude
         self.data = requests.get(self.url).json()
 
-    def is_json(self):
+    def test_connection(self):
        try:
            self.data = requests.get(self.url).json()
        except requests.exceptions.ConnectionError as e:
            return False
+       except requests.exceptions.ValueError as e:
+           return False
        return True
+   def is_connection(self):
+    
 
     def refresh(self):
-        if(not self.is_json()):
+        if(not self.test_connection()):
             time.sleep(30)
             refresh()
         current = self.data['currently']

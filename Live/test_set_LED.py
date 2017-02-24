@@ -6,6 +6,7 @@ LED.begin()
 
 while(True):
     LED.update()
+    print 'Updating'
     time.sleep(600)
 
 
