@@ -2,6 +2,7 @@ import RPi.GPIO as GPIO
 import time
 import get_weather
 
+GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BCM)
 #LED SETUP
 

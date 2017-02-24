@@ -18,25 +18,26 @@ class Weather(object):
         self.data = requests.Session()
 
 
-    def test_connection(self):
+    def is_json(self):
        try:
            self.data = requests.get(self.url).json()
        except requests.exceptions.RequestException as e:
            print 'exception'
-           return False
-       except requests.exceptions.ValueError as e:
-           print 'Invalid JSON handled'
+           time.sleep(30)
            return False
        return True
-    
 
     def refresh(self):
-        if(not self.test_connection()):
-            time.sleep(30)
-            refresh()
-       current = self.data['currently']
+        if(not self.is_json()):
+            self.refresh()
+        current = self.data['currently']
         self.temp = current['temperature']
         self.cloud_cover = current['cloudCover'] * 100
         self.wind_speed = current['windSpeed'] * 10
         self.time = int(datetime.datetime.fromtimestamp(int(current['time'])).strftime('%H'))
+
+myVar = Weather()
+myVar.refresh()
+print myVar.temp
+
 
