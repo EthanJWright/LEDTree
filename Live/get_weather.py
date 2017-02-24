@@ -14,13 +14,12 @@ class Weather(object):
         self.api_key = '52347449fab1dab5431fcbc264efcb19'
         self.latitude = '40.014984'
         self.longitude = '-105.270546'
-        self.url = 'https://api.darksky.net/forecast/' + self.api_key + '/' + self.latitude + ',' + self.longitude
         self.data = requests.Session()
-
 
     def test_connection(self):
        try:
-           self.data = requests.get(self.url).json()
+           url = 'https://api.darksky.net/forecast/' + self.api_key + '/' + self.latitude + ',' + self.longitude
+           self.data = requests.get(url).json()
        except requests.exceptions.RequestException as e:
            print 'exception'
            return False
