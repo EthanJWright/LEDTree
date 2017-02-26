@@ -1,10 +1,13 @@
 import time
+from pigpio_set import gpio_set
 #to make first call, call LED.begin(), then every time to make new call call LED.update()
 #Class must be inherited, let fade_LED function according to model you are representing
 class LED:
     def __init__(self):
         self.new_panel = [None] * 3
         self.old_panel = [None] * 3
+        self.increment_time = 300
+        self.current_gpio = pigpio_set.gpio_set()
 
     def get_RGB(self, panel_number):
         print 'This needs to be overwritten', panel_number
@@ -33,9 +36,13 @@ class LED:
     def set_RGB(self, rgb, panel_number):
         #TODO implement GPIO setter class
         print rgb, 'SETTING ON PANEL ', panel_number
+        if(panel_number == 1):
+            self.current_gpio.setter(rgb)    
+            #TODO CALL pigpio
 
     def fade_LED(self):
-        for i in range(0, int(self.get_max())):
+        maximum = int(self.get_max())
+        for i in range(0, maximum):
             for j in range(0, 3):
                 if(int(self.new_panel[j]) < int(self.old_panel[j])):
                     self.old_panel[j] -= 1
@@ -43,8 +50,8 @@ class LED:
                 elif(int(self.new_panel[j]) > int(self.old_panel[j])):
                     self.old_panel[j] += 1
                     self.set_RGB(self.get_RGB(j), j)
-            time.sleep(1)
             print 'did something'
+            time.sleep(self.increment_time / maximum)
         for i in range(0, 3):
             self.old_panel[i] = self.new_panel[i]
 

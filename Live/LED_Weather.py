@@ -1,5 +1,7 @@
 from set_LED import LED
 import get_weather
+import time
+from pigpio_set import gpio_set
 class LED_Weather(LED):
     def __init__(self):
         LED.__init__(self)
@@ -8,30 +10,32 @@ class LED_Weather(LED):
 
 
     def update(self):
+        print 'CALLING API --------------------------'
         self.tempAPI.refresh()
         self.new_panel[0] = (self.tempAPI.temp * 10)
         self.new_panel[1] = (self.tempAPI.cloud_cover)
-        self.new_panel[2] = self.tempAPI.time
+        self.new_panel[2] = (self.tempAPI.time)
 
         self.fade_LED()
 
 #Must call begin first time this is run
     def begin(self):
+        print 'CALLING API ------------------------'
         self.tempAPI.refresh()
         self.new_panel[0] = (self.tempAPI.temp * 10)
         self.new_panel[1] = self.tempAPI.cloud_cover
-        self.new_panel[2] = self.tempAPI.time
+        self.new_panel[2] = (self.tempAPI.time)
         for i in range(0, 3):
             self.old_panel[i] = self.new_panel[i]
-
+        time.sleep(self.increment_time)
 
     def set_temp(self):
         fit = [None] * 3
         rgb = [None] * 3
         #Quadratic regression variables
-        fit[0] = [0.1504, -16.8053, 509.9143]
-        fit[1] = [-0.1469, 19.2226, -408.3238]
-        fit[2] = [-0.0042, -3.7102, 368.9524]
+        fit[0] = [0.0179, -0.0325, 48.9904]
+        fit[1] = [0.0221, -3.9706, 179.0101]
+        fit[2] = [0.0130, -3.5969, 236.05575]
         temp = self.old_panel[0]/10
         for i in range(0, 3):
             rgb[i] = self.get_regression(fit[i], temp)
@@ -56,10 +60,50 @@ class LED_Weather(LED):
         print rgb, 'CLOUD RGB'
         return rgb
 
+    def set_sun(self, diff_up):
+        rgb = [None] * 3
+        fit = [None] * 3
+        fit[0] = [-0.6972, 15.0515, 216.7746]
+        fit[1] = [-0.3353, 20.9119, -56.9051]
+        fit[2] = [1.1388, -31.8291, 246.6106]
+        for i in range(0, 3):
+            rgb[i] = self.get_regression(fit[i], diff_up)
+        return rgb
+
 
     def set_time(self):
+        rgb = [None] * 3
+        time = self.old_panel[2]
+        sun_up = self.tempAPI.sun_up - 15
+        sun_down = self.tempAPI.sun_down - 15
+        diff_up = time - sun_up
+        diff_down = time - sun_down
+
         #TODO make regression model for time
-        print 'TIME'
+        if( 0 < (diff_up) < 30 ):
+            #sun is rising
+            rgb = self.set_sun(diff_up)
+            print 'time rgb', rgb
+            return
+        elif(1 < (diff_down) < 30):
+            #sun is setting
+            rgb = self.set_sun(30 - diff_down)
+            print 'time rgb', rgb
+            return rgb
+        elif((0 < time < sun_up) or (sun_down + 30 < time < 1440)):
+            #Make night
+            rgb[0] = 255
+            rgb[1] = 0
+            rgb[2] = 255
+            print 'time rgb', rgb
+            return rgb
+        else:
+            #Make day
+            rgb[0] = 0
+            rgb[1] = 255
+            rgb[2] = 255
+            print 'time rgb', rgb
+            return rgb
 
     def get_RGB(self, panel_number):
         rgb = []
