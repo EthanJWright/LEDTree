@@ -6,9 +6,10 @@ class LED:
     def __init__(self):
         self.new_panel = [None] * 3
         self.old_panel = [None] * 3
+        self.gpio = [None] * 3
         self.increment_time = 300
         self.current_gpio = pigpio_set.pig_rgb()
-        self.current_gpio.pig_begin([17, 22, 24])
+        self.gpio[0] = (17, 22, 24)
 
     def get_RGB(self, panel_number):
         print 'This needs to be overwritten', panel_number
@@ -38,7 +39,7 @@ class LED:
         #TODO implement GPIO setter class
         print rgb, 'SETTING ON PANEL ', panel_number
         if(panel_number == 1):
-            self.current_gpio.color(0, rgb)
+            self.current_gpio.pig_begin(self.gpio[0], rgb)
             #TODO CALL pigpio
 
     def fade_LED(self):
