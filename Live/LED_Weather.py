@@ -1,7 +1,6 @@
 from set_LED import LED
 import get_weather
 import time
-from pigpio_set import gpio_set
 class LED_Weather(LED):
     def __init__(self):
         LED.__init__(self)
@@ -27,7 +26,10 @@ class LED_Weather(LED):
         self.new_panel[2] = (self.tempAPI.time)
         for i in range(0, 3):
             self.old_panel[i] = self.new_panel[i]
+            self.set_RGB(self.get_RGB(i), i)
         time.sleep(self.increment_time)
+
+
 
     def set_temp(self):
         fit = [None] * 3
