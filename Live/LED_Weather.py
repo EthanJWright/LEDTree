@@ -1,26 +1,13 @@
 from set_LED import LED
-import get_weather
 import time
 class LED_Weather(LED):
-    def __init__(self):
-        LED.__init__(self)
-        self.tempAPI = get_weather.Weather()
-
-        self.tempAPI.api_key = '52347449fab1dab5431fcbc264efcb19'
-        self.tempAPI.latitude = '40.014984'
-        self.tempAPI.longitude = '-105.270546'
-
-
-
-
-
     def update(self):
         print 'CALLING API --------------------------'
-        self.tempAPI.refresh()
+        self.user.tempAPI.refresh()
         #Temp * 10 to allow for more precise increment update
-        self.new_panel[0] = (self.tempAPI.temp * 10)
-        self.new_panel[1] = (self.tempAPI.cloud_cover)
-        self.new_panel[2] = (self.tempAPI.time)
+        self.new_panel[0] = (self.user.tempAPI.temp * 10)
+        self.new_panel[1] = (self.user.tempAPI.cloud_cover)
+        self.new_panel[2] = (self.user.tempAPI.time)
 
         self.fade_LED()
 
@@ -28,14 +15,14 @@ class LED_Weather(LED):
     def begin(self):
         print 'CALLING API ------------------------'
         #This is required to set up difference between new and old
-        self.tempAPI.refresh()
-        self.new_panel[0] = (self.tempAPI.temp * 10)
-        self.new_panel[1] = self.tempAPI.cloud_cover
-        self.new_panel[2] = (self.tempAPI.time)
+        self.user.tempAPI.refresh()
+        self.new_panel[0] = (self.user.tempAPI.temp * 10)
+        self.new_panel[1] = self.user.tempAPI.cloud_cover
+        self.new_panel[2] = (self.user.tempAPI.time)
         for i in range(0, 3):
             self.old_panel[i] = self.new_panel[i]
             self.set_RGB(self.get_RGB(i), i)
-        time.sleep(self.api_call_interval)
+        time.sleep(self.user.api_call_interval)
 
 
 
@@ -85,8 +72,8 @@ class LED_Weather(LED):
     def set_time(self):
         rgb = [None] * 3
         time = self.old_panel[2]
-        sun_up = self.tempAPI.sun_up - 15
-        sun_down = self.tempAPI.sun_down - 15
+        sun_up = self.user.tempAPI.sun_up - 15
+        sun_down = self.user.tempAPI.sun_down - 15
         diff_up = time - sun_up
         diff_down = time - sun_down
         #If 15 minutes before sunrise

@@ -4,7 +4,7 @@ import pigpio
 class pig_rgb():
     def __init__(self):
         self.rpi = pigpio.pi()
-        self.gpio = [None] * 3
+        self.gpio = 0
 
     def pig_set(self, panel, rgb):
         if(panel == 0):
