@@ -6,11 +6,18 @@ class LED_Weather(LED):
         LED.__init__(self)
         self.tempAPI = get_weather.Weather()
 
+        self.tempAPI.api_key = '52347449fab1dab5431fcbc264efcb19'
+        self.tempAPI.latitude = '40.014984'
+        self.tempAPI.longitude = '-105.270546'
+
+
+
 
 
     def update(self):
         print 'CALLING API --------------------------'
         self.tempAPI.refresh()
+        #Temp * 10 to allow for more precise increment update
         self.new_panel[0] = (self.tempAPI.temp * 10)
         self.new_panel[1] = (self.tempAPI.cloud_cover)
         self.new_panel[2] = (self.tempAPI.time)
@@ -20,6 +27,7 @@ class LED_Weather(LED):
 #Must call begin first time this is run
     def begin(self):
         print 'CALLING API ------------------------'
+        #This is required to set up difference between new and old
         self.tempAPI.refresh()
         self.new_panel[0] = (self.tempAPI.temp * 10)
         self.new_panel[1] = self.tempAPI.cloud_cover
@@ -27,20 +35,20 @@ class LED_Weather(LED):
         for i in range(0, 3):
             self.old_panel[i] = self.new_panel[i]
             self.set_RGB(self.get_RGB(i), i)
-        time.sleep(self.increment_time)
+        time.sleep(self.api_call_interval)
 
 
 
     def set_temp(self):
         fit = [None] * 3
         rgb = [None] * 3
-        #Quadratic regression variables
+        #regression coefficients from MATLAB
         fit[0] = [0.0179, -0.0325, 48.9904]
         fit[1] = [0.0221, -3.9706, 179.0101]
         fit[2] = [0.0130, -3.5969, 236.05575]
         temp = self.old_panel[0]/10
-        for i in range(0, 3):
-            rgb[i] = self.get_regression(fit[i], temp)
+        for color in range(0, 3):
+            rgb[color] = self.get_regression(fit[color], temp)
 
         rgb = self.check_RGB(rgb)
         print rgb, 'TEMP RGB'
@@ -49,14 +57,14 @@ class LED_Weather(LED):
     def set_cloud(self):
         rgb = [None] * 3
         fit = [None] * 3
-        #Quadratic regression variables
+        #regression coefficients from MATLAB
         fit[0] = [-0.0258, 2.8313, 173.9301]
         fit[1] = [-0.0240, 2.4602, 191.9021]
         fit[2] = [-0.0124, 0.7263, 249.6503]
         cloud = self.old_panel[1]
 
-        for i in range(0, 3):
-            rgb[i] = self.get_regression(fit[i], cloud)
+        for color in range(0, 3):
+            rgb[color] = self.get_regression(fit[color], cloud)
 
         rgb = self.check_RGB(rgb)
         print rgb, 'CLOUD RGB'
@@ -65,6 +73,7 @@ class LED_Weather(LED):
     def set_sun(self, diff_up):
         rgb = [None] * 3
         fit = [None] * 3
+        #regression coefficients from MATLAB
         fit[0] = [-0.6972, 15.0515, 216.7746]
         fit[1] = [-0.3353, 20.9119, -56.9051]
         fit[2] = [1.1388, -31.8291, 246.6106]
@@ -80,18 +89,19 @@ class LED_Weather(LED):
         sun_down = self.tempAPI.sun_down - 15
         diff_up = time - sun_up
         diff_down = time - sun_down
-
-        #TODO make regression model for time
+        #If 15 minutes before sunrise
         if( 0 < (diff_up) < 30 ):
             #sun is rising
             rgb = self.set_sun(diff_up)
             print 'time rgb', rgb
             return
-        elif(1 < (diff_down) < 30):
+        #If 15 minutes before sunset
+        elif(0 < (diff_down) < 30):
             #sun is setting
             rgb = self.set_sun(30 - diff_down)
             print 'time rgb', rgb
             return rgb
+        #If night 
         elif((0 < time < sun_up) or (sun_down + 30 < time < 1440)):
             #Make night
             rgb[0] = 255
@@ -100,7 +110,7 @@ class LED_Weather(LED):
             print 'time rgb', rgb
             return rgb
         else:
-            #Make day
+            #If day
             rgb[0] = 0
             rgb[1] = 255
             rgb[2] = 255

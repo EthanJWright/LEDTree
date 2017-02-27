@@ -32,13 +32,7 @@ class LED:
         diff = [None] * self.number_of_panels
         for i in range(0, self.number_of_panels):
             diff[i] = abs(self.new_panel[i] - self.old_panel[i])
-        if(diff[0] > diff[1]):
-            if(diff[0] > diff[2]):
-                return diff[0]
-            else:
-                return diff[2]
-        else:
-            return diff[1]
+        return max(diff) 
 
     def set_RGB(self, rgb, panel_number):
         #TODO implement GPIO setter class

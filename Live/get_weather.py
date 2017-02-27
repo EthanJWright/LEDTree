@@ -15,9 +15,10 @@ class Weather(object):
         self.sun_down = 0
 
 
-        self.api_key = '52347449fab1dab5431fcbc264efcb19'
-        self.latitude = '40.014984'
-        self.longitude = '-105.270546'
+        self.api_key = 'not implemented'
+        self.latitude = 'not implemented'
+        self.longitude = 'not implemented'
+
         self.data = requests.Session()
 
     def test_connection(self):
@@ -52,9 +53,3 @@ class Weather(object):
         self.sun_down = self.convert_to_min(int(self.data['daily']['data'][4]['sunsetTime']))
         
 
-
-myVar = Weather()
-myVar.refresh()
-print myVar.time
-print myVar.sun_up
-print myVar.sun_down
