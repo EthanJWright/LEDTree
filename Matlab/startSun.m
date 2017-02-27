@@ -1,16 +1,11 @@
-%temp = [20, 30, 40, 50, 60, 70, 80, 90, 100] 
-%red = [255, 174, 34, 0, 0, 63, 255, 255, 255]
-%green = [0, 0, 0, 178, 255, 255, 255, 127, 0]
-%blue = [250, 255, 255, 255, 140, 0, 0, 0, 0]
-
-temp = [1, 8, 16, 24, 30] 
+sun_rise = [1, 8, 16, 24, 30] 
 red = [255, 255, 255, 255, 0]
 green = [0, 0, 255, 255, 255]
 blue = [255, 0, 0, 255, 255]
 
-red_fit = polyfit(temp, red, 2)
-green_fit = polyfit(temp, green, 2)
-blue_fit = polyfit(temp, blue, 2)
+red_fit = polyfit(sun_rise, red, 2)
+green_fit = polyfit(sun_rise, green, 2)
+blue_fit = polyfit(sun_rise, blue, 2)
 
 
 for i = 0:300
