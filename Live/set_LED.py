@@ -4,12 +4,16 @@ import pigpio_set
 #Class must be inherited, let fade_LED function according to model you are representing
 class LED:
     def __init__(self):
-        self.new_panel = [None] * 3
-        self.old_panel = [None] * 3
-        self.gpio = [None] * 3
-        self.increment_time = 300
-        self.current_gpio = pigpio_set.pig_rgb()
-        self.gpio[0] = (17, 22, 24)
+    #Change these based on preference
+        self.number_of_panels = 3
+        self.api_call_interval = 300
+
+
+        self.new_panel = [None] * self.number_of_panels
+        self.old_panel = [None] * self.number_of_panels
+
+        self.rpi = pigpio_set.pig_rgb()
+        self.rpi.gpio[0] = (17, 22, 24)
 
     def get_RGB(self, panel_number):
         print 'This needs to be overwritten', panel_number
@@ -24,8 +28,9 @@ class LED:
         raise NotImplementedError
 
     def get_max(self):
-        diff = [None] * 3
-        for i in range(0, 3):
+    #Return the greatest difference between old panels vs. new panels
+        diff = [None] * self.number_of_panels
+        for i in range(0, self.number_of_panels):
             diff[i] = abs(self.new_panel[i] - self.old_panel[i])
         if(diff[0] > diff[1]):
             if(diff[0] > diff[2]):
@@ -39,23 +44,29 @@ class LED:
         #TODO implement GPIO setter class
         print rgb, 'SETTING ON PANEL ', panel_number
         if(panel_number == 1):
-            self.current_gpio.pig_begin(self.gpio[0], rgb)
+            self.rpi.pig_begin(self.rpi.gpio[0], rgb)
             #TODO CALL pigpio
 
     def fade_LED(self):
         maximum = int(self.get_max())
-        for i in range(0, maximum):
-            for j in range(0, 3):
-                if(int(self.new_panel[j]) < int(self.old_panel[j])):
-                    self.old_panel[j] -= 1
-                    self.set_RGB(self.get_RGB(j), j)
-                elif(int(self.new_panel[j]) > int(self.old_panel[j])):
-                    self.old_panel[j] += 1
-                    self.set_RGB(self.get_RGB(j), j)
+        for update in range(0, maximum):
+        #Check all panels for change since last API call
+            for panel_number in range(0, self.number_of_panels):
+            #Update all panels that need it every iteration
+                if(int(self.new_panel[panel_number]) < int(self.old_panel[panel_number])):
+                #If value has gone down
+                    self.old_panel[panel_number] -= 1
+                    self.set_RGB(self.get_RGB(panel_number), panel_number)
+                elif(int(self.new_panel[panel_number]) > int(self.old_panel[panel_number])):
+                #If value has gone up
+                    self.old_panel[panel_number] += 1
+                    self.set_RGB(self.get_RGB(panel_number), panel_number)
             print 'did something'
-            time.sleep(self.increment_time / maximum)
-        for i in range(0, 3):
-            self.old_panel[i] = self.new_panel[i]
+            #Once all checked, sleep to properly break up API call ping time
+            time.sleep(self.api_call_interval / maximum)
+        #In case of any float value discrenpancy, set old for next API call
+        for panel_number in range(0, self.number_of_panels):
+            self.old_panel[panel_number] = self.new_panel[panel_number]
 
 
     def get_regression(self, fit, x_value):
@@ -64,9 +75,9 @@ class LED:
         return int(regression)
 
     def check_RGB(self, rgb):
-        for i in range(0,3):
-            if(rgb[i] > 255):
-                rgb[i] = 255
-            if(rgb[i] < 0):
-                rgb[i] = 0
+        for color in range(0,3):
+            if(rgb[color] > 255):
+                rgb[color] = 255
+            if(rgb[color] < 0):
+                rgb[color] = 0
         return rgb
