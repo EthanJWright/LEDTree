@@ -8,6 +8,7 @@ class LED:
         self.old_panel = [None] * 3
         self.increment_time = 300
         self.current_gpio = pigpio_set.pig_rgb()
+        self.current_gpio.pig_begin([17, 22, 24])
 
     def get_RGB(self, panel_number):
         print 'This needs to be overwritten', panel_number
