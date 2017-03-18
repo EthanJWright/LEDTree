@@ -50,7 +50,11 @@ class Weather(object):
         self.time = self.convert_to_min(current['time'])
         self.sun_up = self.convert_to_min(int(self.data['daily']['data'][4]['sunriseTime']))
         self.sun_down = self.convert_to_min(int(self.data['daily']['data'][4]['sunsetTime']))
-        print self.sun_down
+
         
 test = Weather()
 test.refresh()
+print test.sun_up
+print test.sun_down
+print test.time
+print 'temp is :',test.temp

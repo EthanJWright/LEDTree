@@ -13,7 +13,7 @@ class LED:
         self.old_panel = [None] * self.user.number_of_panels
 
         self.rpi = pigpio_set.pig_rgb()
-        self.rpi.gpio = (17, 22, 24)
+        self.rpi.gpio = (24, 22, 17)
 
     def get_RGB(self, panel_number):
         print 'This needs to be overwritten', panel_number
@@ -39,7 +39,9 @@ class LED:
         print rgb, 'SETTING ON PANEL ', panel_number
         if(panel_number == 0):
 #            print 'Sending gpio: ', self.user.gpio[panel_number], ' with rgb ', rgb
-            list(map((lambda x: x / 2.55), rgb))
+            rgb = self.check_RGB(rgb)
+            rgb = list(map((lambda x: int(x / 2.55)), rgb))
+            print "Setting panel", panel_number, 'with rgb value ', rgb
             self.rpi.pig_set(panel_number, rgb)
 
 

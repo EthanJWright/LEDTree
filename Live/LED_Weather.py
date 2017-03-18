@@ -5,7 +5,7 @@ class LED_Weather(LED):
         print 'CALLING API --------------------------'
         self.user.tempAPI.refresh()
         #Temp * 10 to allow for more precise increment update
-        self.new_panel[0] = (self.user.tempAPI.temp * 10)
+        self.new_panel[0] = (self.user.tempAPI.temp) + self.user.weather_offset
         self.new_panel[1] = (self.user.tempAPI.cloud_cover)
         self.new_panel[2] = (self.user.tempAPI.time)
 
@@ -16,7 +16,7 @@ class LED_Weather(LED):
         print 'CALLING API ------------------------'
         #This is required to set up difference between new and old
         self.user.tempAPI.refresh()
-        self.new_panel[0] = (self.user.tempAPI.temp * 10)
+        self.new_panel[0] = (self.user.tempAPI.temp) + self.user.weather_offset
         self.new_panel[1] = self.user.tempAPI.cloud_cover
         self.new_panel[2] = (self.user.tempAPI.time)
         for i in range(0, 3):
@@ -30,15 +30,15 @@ class LED_Weather(LED):
         fit = [None] * 3
         rgb = [None] * 3
         #regression coefficients from MATLAB
-        fit[0] = [0.0179, -0.0325, 48.9904]
-        fit[1] = [0.0221, -3.9706, 179.0101]
-        fit[2] = [0.0130, -3.5969, 236.05575]
-        temp = self.old_panel[0]/10
+        fit[0] = [0.1504, -16.8053, 509.9143]
+        fit[1] = [-0.1473, 19.2913, -410.0381]
+        fit[2] = [-0.0042, -3.7102, 368.9524]
+        temp = self.old_panel[0]
         for color in range(0, 3):
             rgb[color] = self.get_regression(fit[color], temp)
 
         rgb = self.check_RGB(rgb)
-        print rgb, 'TEMP RGB'
+        print rgb, 'TEMP RGB at temp', temp
         return rgb
 
     def set_cloud(self):
@@ -77,13 +77,13 @@ class LED_Weather(LED):
         diff_up = time - sun_up
         diff_down = time - sun_down
         #If 15 minutes before sunrise
-        if( 0 < (diff_up) < 30 ):
+        if( 0 <= (diff_up) < 30 ):
             #sun is rising
             rgb = self.set_sun(diff_up)
             print 'time rgb', rgb
-            return
+            return rgb
         #If 15 minutes before sunset
-        elif(0 < (diff_down) < 30):
+        elif(0 <= (diff_down) < 30):
             #sun is setting
             rgb = self.set_sun(30 - diff_down)
             print 'time rgb', rgb
@@ -114,8 +114,4 @@ class LED_Weather(LED):
             rgb = self.set_time()
         return rgb
 
-    '''
-    def get_regression(self, fit, x_value):
-        regression = fit[0] * (pow(x_value, 2)) + fit[1] * (x_value) + fit[2]
-        return regression
-'''
+
