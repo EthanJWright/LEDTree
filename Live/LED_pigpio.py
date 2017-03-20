@@ -9,7 +9,6 @@ class pig_rgb():
     def pig_set(self, panel, rgb):
 #        if(panel == 2):
          for i in range (0, 3):
-#                print 'setting ', gpio[i], 'to rgb ', rgb[i]
              self.rpi.set_PWM_dutycycle(self.gpio[i], rgb[i])
 
     def pig_begin(self,gpio):

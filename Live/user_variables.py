@@ -1,4 +1,4 @@
-import get_weather
+import Weather_API
 class User_Variables():
     def __init__(self):
         self.number_of_panels = 3
