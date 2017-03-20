@@ -76,9 +76,7 @@ class LED:
             time.sleep(fade_interval)
         #In case of any float value discrenpancy, set old for next API call
         #TODO see if we can replace with this line
-#        self.old_panel = self.new_panel
-        for panel_number in range(0, self.user.number_of_panels):
-            self.old_panel[panel_number] = self.new_panel[panel_number]
+        self.old_panel = self.new_panel
 
 
     def get_regression(self, fit, x_value):
