@@ -1,4 +1,4 @@
-from set_LED import LED
+from LED_Template import LED
 import time
 class LED_Weather(LED):
     def update(self):
