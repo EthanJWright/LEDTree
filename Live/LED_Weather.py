@@ -34,11 +34,10 @@ class LED_Weather(LED):
         fit[1] = [-0.1473, 19.2913, -410.0381]
         fit[2] = [-0.0042, -3.7102, 368.9524]
         temp = self.old_panel[0]
-'''
+
         for color in range(0, 3):
             rgb[color] = self.get_regression(fit[color], temp)
-'''
-        rgb = list(map(lambda x : self.get_regression(fit, temp)))
+
         rgb = self.check_RGB(rgb)
         print rgb, 'TEMP RGB at temp', temp
         return rgb
@@ -107,7 +106,7 @@ class LED_Weather(LED):
             return rgb
 
     def get_RGB(self, panel_number):
-        rgb = []
+        rgb = [None] * 3
         if(panel_number == 0):
             rgb = self.set_temp()
         elif(panel_number == 1):

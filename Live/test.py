@@ -1,13 +1,4 @@
-import time, threading
-
-def print_stuff():
-    print(time.ctime())
-
-def foo():
-    threading.Timer(10, print_stuff).start()
-    while(True):
-        time.sleep(1)
-        print 'test'
-
-
-foo()
+test = [1, 2, 3]
+tester = [3, 4, 5]
+test = tester
+print test
