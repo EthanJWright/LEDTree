@@ -2,13 +2,13 @@ from set_LED import LED
 import time
 class LED_Weather(LED):
     def update(self):
+        #Sets up the panel variables
         print 'CALLING API --------------------------'
         self.user.tempAPI.refresh()
-        #Temp * 10 to allow for more precise increment update
-        self.new_panel[0] = (self.user.tempAPI.temp) + self.user.weather_offset
-        self.new_panel[1] = (self.user.tempAPI.cloud_cover)
-        self.new_panel[2] = (self.user.tempAPI.time)
-
+        self.new_panel[0] = self.user.tempAPI.temp + self.user.weather_offset
+        self.new_panel[1] = self.user.tempAPI.cloud_cover
+        self.new_panel[2] = self.user.tempAPI.time
+        #With new values set, start fading to the new values
         self.fade_LED()
 
 #Must call begin first time this is run
@@ -16,9 +16,9 @@ class LED_Weather(LED):
         print 'CALLING API ------------------------'
         #This is required to set up difference between new and old
         self.user.tempAPI.refresh()
-        self.new_panel[0] = (self.user.tempAPI.temp) + self.user.weather_offset
+        self.new_panel[0] = self.user.tempAPI.temp + self.user.weather_offset
         self.new_panel[1] = self.user.tempAPI.cloud_cover
-        self.new_panel[2] = (self.user.tempAPI.time)
+        self.new_panel[2] = self.user.tempAPI.time
         for i in range(0, 3):
             self.old_panel[i] = self.new_panel[i]
             self.set_RGB(self.get_RGB(i), i)
@@ -34,9 +34,11 @@ class LED_Weather(LED):
         fit[1] = [-0.1473, 19.2913, -410.0381]
         fit[2] = [-0.0042, -3.7102, 368.9524]
         temp = self.old_panel[0]
+'''
         for color in range(0, 3):
             rgb[color] = self.get_regression(fit[color], temp)
-
+'''
+        rgb = list(map(lambda x : self.get_regression(fit, temp)))
         rgb = self.check_RGB(rgb)
         print rgb, 'TEMP RGB at temp', temp
         return rgb
@@ -88,7 +90,7 @@ class LED_Weather(LED):
             rgb = self.set_sun(30 - diff_down)
             print 'time rgb', rgb
             return rgb
-        #If night 
+        #If night
         elif((0 < time < sun_up) or (sun_down + 30 < time < 1440)):
             #Make night
             rgb[0] = 255
@@ -113,5 +115,3 @@ class LED_Weather(LED):
         elif(panel_number == 2):
             rgb = self.set_time()
         return rgb
-
-
