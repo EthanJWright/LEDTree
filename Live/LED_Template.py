@@ -5,14 +5,14 @@ import user_variables
 #Class must be inherited, let fade_LED function according to model you are representing
 class LED:
     def __init__(self):
-    #Change these based on preference
+        #Change these based on preference
         self.user = user_variables.User_Variables()
 
-       #GPIO is an [n] length array of tuples which correspond to (RGB) values
-       #Each value should correspond to the connected GPIO pin on the RPI
+        #GPIO is an [n] length array of tuples which correspond to (RGB) values
+        #Each value should correspond to the connected GPIO pin on the RPI
         self.gpio = [None] * self.user.number_of_panels
 
-         # New Panel keeps track of the live data pulled from the API
+        # New Panel keeps track of the live data pulled from the API
         self.new_panel = [None] * self.user.number_of_panels
         # Old Panel keeps track of data from [n] minutes prior in order to update  evenly
         self.old_panel = [None] * self.user.number_of_panels
@@ -49,8 +49,10 @@ class LED:
         #Given a panel number and a rgb, set the corresponding GPIO ports
         print rgb, 'SETTING ON PANEL ', panel_number
         if(panel_number == 0):
+            #Regression done on (1, 255) scale, gpio on (1, 100) scale
+            convert = 2.55  
             rgb = self.check_RGB(rgb)
-            rgb = list(map((lambda x:int( x/2.55 )), rgb))
+            rgb = list(map((lambda x:int( x/convert )), rgb))
             print "Setting panel", panel_number, 'with rgb value ', rgb
             self.rpi.pig_set(panel_number, rgb)
 
@@ -87,10 +89,12 @@ class LED:
         return int(regression)
 
     def check_RGB(self, rgb):
+        rgb_range_upper = 255
+        rgb_range_lower = 0
         #check to make sure RGB values are between 0, 255
         for color in range(0,3):
-            if(rgb[color] > 255):
-                rgb[color] = 255
-            if(rgb[color] < 0):
-                rgb[color] = 0
+            if(rgb[color] > rgb_range_upper):
+                rgb[color] = rgb_range_upper
+            if(rgb[color] < rgb_range_lower):
+                rgb[color] = rgb_range_lower
         return rgb

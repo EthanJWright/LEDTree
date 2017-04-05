@@ -27,9 +27,12 @@ class LED_Weather(LED):
 
 
     def set_temp(self):
+        #Temp will get the 
+        #Fit variables are coefficients for the regression model
+        #Regression calculations found in MATLAB file
         fit = [None] * 3
         rgb = [None] * 3
-        #regression coefficients from MATLAB
+        #regression coefficients
         fit[0] = [0.1504, -16.8053, 509.9143]
         fit[1] = [-0.1473, 19.2913, -410.0381]
         fit[2] = [-0.0042, -3.7102, 368.9524]
