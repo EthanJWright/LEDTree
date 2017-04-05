@@ -76,24 +76,30 @@ class LED_Weather(LED):
     def set_time(self):
         rgb = [None] * 3
         time = self.old_panel[2]
-        sun_up = self.user.tempAPI.sun_up - 15
-        sun_down = self.user.tempAPI.sun_down - 15
+        start_early = 15
+
+        sun_up = self.user.tempAPI.sun_up - start_early
+        sun_down = self.user.tempAPI.sun_down - start_early
+
         diff_up = time - sun_up
         diff_down = time - sun_down
+
+        end_of_day = 1440
+        sunrise_interval = 30
         #If 15 minutes before sunrise
-        if( 0 <= (diff_up) < 30 ):
+        if( 0 <= (diff_up) < sunrise_interval ):
             #sun is rising
             rgb = self.set_sun(diff_up)
             print 'time rgb', rgb
             return rgb
         #If 15 minutes before sunset
-        elif(0 <= (diff_down) < 30):
+        elif(0 <= (diff_down) < sunrise_interval):
             #sun is setting
-            rgb = self.set_sun(30 - diff_down)
+            rgb = self.set_sun(sunrise_interval - diff_down)
             print 'time rgb', rgb
             return rgb
         #If night
-        elif((0 < time < sun_up) or (sun_down + 30 < time < 1440)):
+        elif((0 < time < sun_up) or (sun_down + sunrise_interval < time < end_of_day)):
             #Make night
             rgb[0] = 255
             rgb[1] = 0
