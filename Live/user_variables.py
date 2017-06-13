@@ -15,7 +15,7 @@ class User_Variables():
         self.weather_offset = 10  
         
       #Temp API variables
-        self.tempAPI = get_weather.Weather() 
+        self.tempAPI = Weather_API.Weather() 
         self.tempAPI.api_key = '52347449fab1dab5431fcbc264efcb19'
         self.tempAPI.latitude = '40.014984'
         self.tempAPI.longitude = '-105.270546'
