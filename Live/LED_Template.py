@@ -18,7 +18,7 @@ class LED:
         self.old_panel = [None] * self.user.number_of_panels
 
         # Create an instance of our rasberry pi
-        self.rpi = pigpio_set.pig_rgb()
+        self.rpi = LED_controller.pig_rgb()
         # Set the gpio ports for the RPI
         self.rpi.gpio = self.user.gpio[0]
 
