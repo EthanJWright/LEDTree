@@ -18,7 +18,7 @@ sudo make install
 Start Pigpio: <br />
 PIGPIO/pigpio
 
-Collaborative links: <br />
+How to set up RBG LED: <br />
 http://dordnung.de/raspberrypi-ledstrip/ <br /> 
 
 Edit crontab:
